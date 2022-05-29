@@ -1,0 +1,7 @@
+C:\Users\Admin\source\repos\Blogs\Models\bin\Debug\Models.exe.config
+C:\Users\Admin\source\repos\Blogs\Models\bin\Debug\Models.exe
+C:\Users\Admin\source\repos\Blogs\Models\bin\Debug\Models.pdb
+C:\Users\Admin\source\repos\Blogs\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\Blogs\Models\obj\Debug\Models.exe
+C:\Users\Admin\source\repos\Blogs\Models\obj\Debug\Models.pdb
+C:\Users\Admin\source\repos\Blogs\Models\obj\Debug\Models.csprojAssemblyReference.cache

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Blogs.EF.Post>
+@using Blogs.CustomeHelper
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/Assets/assets/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Clean Blog</h1>
+                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Post preview-->
+            <p>
+                @Html.ActionLink("Create New", "Create")
+            </p>
+            @foreach (var item in Model)
+            {
+        <div class="post-preview">
+
+            <a href="/Home/Details/@item.Id">
+                <h2 class="post-title">@item.Short_Description</h2>
+                @*<p class="post-meta">
+                    Posted @item.Posted_On with rate @item.RateCount by @item.ViewCount view(s)
+                </p>*@
+                @Html.PostOn(@item.Posted_On, @item.RateCount, @item.ViewCount)
+                <h3 class="post-subtitle">@item.PostContent</h3>
+            </a>
+            <p>
+                Category: @Html.CategoryLink(item.Category.Name);
+            </p>
+
+        </div>
+            }
+        </div>
+        <div class="col-lg-4 mx-auto">
+            @{
+                Html.RenderAction("AboutCard", "Home");
+            }
+            <div class="h3">Top 5 posts have highest ViewCount</div>
+            @{
+                Html.RenderAction("MostViewedPosts", "Posts");
+            }
+            <div class="h3">Top 5 latest posts</div>
+            @{
+                Html.RenderAction("LatestPost", "Posts");
+            }
+        </div>
+        <!-- Divider-->
+        <hr class="my-4" />
+        <div class="d-flex justify-content-end mb-4">
+            <a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a>
+
+        </div>
+        <div>Popular tag</div>
+        <p>
+            @{
+                Html.RenderAction("PopularTags", "Tags");
+            }
+        </p>
+
+    </div>
+
+</div>

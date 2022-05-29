@@ -1,0 +1,26 @@
+﻿
+@model IEnumerable<Blogs.EF.Post>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Short_Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Short_Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ViewCount)
+    </td>
+</tr>
+    }
+
+</table>

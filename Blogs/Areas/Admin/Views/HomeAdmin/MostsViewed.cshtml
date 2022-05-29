@@ -1,0 +1,91 @@
+﻿
+@model IEnumerable<Blogs.EF.Post>
+@using System.Globalization;
+
+@{
+    ViewBag.Title = "MostsViewed";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Mosts Viewed</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Short_Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posted_On)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RateCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <p style="width:100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                    @Html.DisplayFor(modelItem => item.Short_Description)
+
+                </p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Published)
+            </td>
+            <td>
+                @item.Posted_On.ToString("dd/MM/yyyy", new CultureInfo("vi-VN"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ViewCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RateCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalRate)
+            </td>
+            <td>
+                <p style="width:100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                    @Html.DisplayFor(modelItem => item.PostContent)
+                </p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

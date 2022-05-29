@@ -1,0 +1,27 @@
+﻿
+@model IEnumerable<Blogs.EF.Post>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Short_Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posted_On)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Short_Description)
+    </td>
+    <td>
+        @item.Posted_On.ToString("dd/MM/yyyy")
+        @*@Html.DisplayFor(modelItem => item.Posted_On.ToString("dd/MM/yyyy"))*@
+    </td>
+</tr>
+    }
+
+</table>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Blogs.EF.Post>
+@using System.Globalization;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+
+
+<div class="border p-2">
+    <label for="ShortDescription" class="col col-form-label">Short-Description</label>
+    <input type="text" class="form-control" id="ShortDescription" placeholder="">
+    <input class="form-check-input" type="checkbox" id="Published">
+    <label class="form-check-label" for="Published">
+        Published
+    </label>
+    <button style="float:right; margin: 8px" type="submit" id="btn_search" class="btn btn-primary">Search</button>
+    <div style="clear: both"></div>
+
+</div>
+
+
+@*@Html.Partial("_List")*@
+
+<div id="PostLists">
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        getPosts();
+
+        $("#btn_search").on('click', function () {
+            getPosts();
+            console.log(getPosts());
+        });
+    });
+
+    function getPosts() {
+        var posts = {
+            Des: $("#ShortDescription").val(),
+            Published: $("#Published").val()
+        };
+
+        $ajax({
+            type: "POST",
+            url: /PostsAdmin/SearchPost,
+            data: posts,
+            success: function (data) {
+                $("#PostLists").html(data);
+            },
+            error: function () {
+                alert("error!")
+            }
+        })
+
+</script>
+

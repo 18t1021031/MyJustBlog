@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyJustBlogDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UrlSlug" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Posts" Relationship="Self.FK_dbo_Posts_dbo_Categories_CategoryId" FromRole="Categories" ToRole="Posts" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="PostId" Type="Int32" Nullable="false" />
+    <Property Name="CommentHeader" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CommentTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_dbo_Comments_dbo_Posts_PostId" FromRole="Comments" ToRole="Posts" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Short_Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UrlSlug" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Published" Type="Boolean" Nullable="false" />
+    <Property Name="Posted_On" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <Property Name="CategoryId" Type="Int32" Nullable="false" />
+    <Property Name="ViewCount" Type="Int32" />
+    <Property Name="RateCount" Type="Int32" />
+    <Property Name="TotalRate" Type="Int32" />
+    <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Posts_dbo_Categories_CategoryId" FromRole="Posts" ToRole="Categories" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK_dbo_Comments_dbo_Posts_PostId" FromRole="Posts" ToRole="Comments" />
+    <NavigationProperty Name="Tags" Relationship="Self.PostTagMap" FromRole="Posts" ToRole="Tags" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UrlSlug" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Posts" Relationship="Self.PostTagMap" FromRole="Tags" ToRole="Posts" />
+  </EntityType>
+  <Association Name="FK_dbo_Posts_dbo_Categories_CategoryId">
+    <End Role="Categories" Type="Self.Category" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Comments_dbo_Posts_PostId">
+    <End Role="Posts" Type="Self.Post" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Comments" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PostTagMap">
+    <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+    <End Role="Tags" Type="Self.Tag" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="MyJustBlogDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="Posts" EntityType="Self.Post" />
+    <EntitySet Name="Tags" EntityType="Self.Tag" />
+    <AssociationSet Name="FK_dbo_Posts_dbo_Categories_CategoryId" Association="Self.FK_dbo_Posts_dbo_Categories_CategoryId">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Comments_dbo_Posts_PostId" Association="Self.FK_dbo_Comments_dbo_Posts_PostId">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="PostTagMap" Association="Self.PostTagMap">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="Tags" EntitySet="Tags" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
